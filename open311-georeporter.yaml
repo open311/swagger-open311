@@ -50,15 +50,20 @@ definitions:
 
 
 paths:
-#todo jurisdiction_id as general conept? 
+#todo jurisdiction_id as general concept?
+#todo response_format as general concept?
 
-  /services:
+  /services.{response_format}:
     get:
       summary: service types
       description: List acceptable service request types and their associated service codes. These request types can be unique to the city/jurisdiction.
       parameters:
         - name: jurisdiction_id
           in: query #fix it
+          required: true
+          type: string
+        - name: response_format
+          in: path
           required: true
           type: string
       responses:
