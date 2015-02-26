@@ -12,3 +12,59 @@ info:
   license:
     name: <?>
     url: http://
+
+consumes:
+        - application/json
+        - application/xml
+produces:
+        - application/json
+        - application/xml
+        
+#securityDefinitions: <?>
+#security:
+
+definitions:
+  Service:
+    description: A single Open311 service (type)
+    properties:
+      service_code:
+        type: string
+        description: unique identifier for the service request type
+      service_name:
+        type: string
+        description: human readable name of the service request type
+      description:
+        type: string
+      metadata:
+        type: boolean
+        description: Are there additional form fields for this service type? If true use GET service definition for that one 
+      type:
+        type: string
+        description: Possible values realtime, batch, blackbox #fixme
+      keywords:
+        type: string
+        description: list of keywords or tags seperated by comma
+      group:
+        type: string
+        description: Category or group to cluster different request types e.g. “sanitation”
+
+
+paths:
+#todo jurisdiction_id as general conept? 
+
+  /services:
+    get:
+      summary: service types
+      description: List acceptable service request types and their associated service codes. These request types can be unique to the city/jurisdiction.
+      parameters:
+        - name: jurisdiction_id
+          in: query #fix it
+          required: true
+          type: string
+      responses:
+        200:
+          description: ok
+          schema:
+              type: array
+              items:
+                $ref: '#/definitions/Service'
