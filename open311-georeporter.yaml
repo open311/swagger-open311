@@ -40,7 +40,7 @@ definitions:
         description: Are there additional form fields for this service type? If true use GET service definition for that one 
       type:
         type: string
-        description: Possible values realtime, batch, blackbox #fixme
+        description: Possible values realtime, batch, blackbox #todo as enum?
       keywords:
         type: string
         description: list of keywords or tags seperated by comma
@@ -52,6 +52,7 @@ definitions:
 paths:
 #todo jurisdiction_id as general concept?
 #todo response_format as general concept?
+#todo extract an error model for responses?
 
   /services.{response_format}:
     get:
@@ -73,3 +74,7 @@ paths:
               type: array
               items:
                 $ref: '#/definitions/Service'
+        400:
+          description: The URL request is invalid or service is not running or reachable. Client should notify us after checking URL
+        404:
+          description: jurisdiction_id provided was not found (specify in error response).
