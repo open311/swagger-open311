@@ -160,6 +160,6 @@ paths:
             $ref: '#/definitions/ServiceDefinition'
                 
         400:
-          description: The URL request is invalid or service is not running or reachable. Client should notify us after checking URL
+          description: service_code or jurisdiction_id provided were not found (specify in error response)
         404:
-          description: jurisdiction_id provided was not found (specify in error response).
+          description: service_code or jurisdiction_id provided were not found (specify in error response)
