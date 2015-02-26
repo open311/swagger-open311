@@ -23,9 +23,11 @@ produces:
 #securityDefinitions: <?>
 #security:
 
+#todo add example values for mocking this API
+
 definitions:
   Service:
-    description: A single Open311 service (type)
+    description: A single service (type) offered via Open311
     properties:
       service_code:
         type: string
@@ -47,11 +49,66 @@ definitions:
       group:
         type: string
         description: Category or group to cluster different request types e.g. “sanitation”
+  
+  ServiceDefinition:
+    description: Attributes associated with a service code. These attributes can be unique to the city/jurisdiction.
+    properties:
+      service_code:
+        type: string
+        description: unique identifier for the service request type
+      attributes:
+        type: array
+        items:
+          $ref: '#/definitions/ServiceAttribute'
+          
+  ServiceAttribute:
+    description: A single attribute extension for a service
+    properties:
+      variable:
+        type: boolean
+        description: If only used to present information to the user within the description field or if that user input is needed
+      code:
+        type: string
+        description: Unique identifier for the attribute #<?>why and limitations
+      datatype:
+        type: string #todo string, number, datetime, text, singlevaluelist, multivaluelist.
+        description: Type of field used for user input. According widgets will be picked for user inputs
+      required:
+        type: boolean
+        description: If attributes value required to submit service request 
+      datatype_description:
+        type: string
+        description: Description of the datatype which helps the user provide their input
+      order:
+        type: integer #todo Limit numbers?
+        description: Sort order that the attributes will be presented to the user. 1 is shown first in the list.
+      description:
+        type: string
+        description: description of the attribute field with instructions for the user to find and identify the requested information
+      values:
+        type: array
+        items:
+          $ref: '#/definitions/AttributeValue'
+          
+  AttributeValue:
+    description: Possible value for ServiceAttribute that defines lists
+    properties:
+      key:
+        type: string
+        description: Unique identifier associated with an option for singlevaluelist or multivaluelist (analogous to the value attribute in an html option tag).
+      name:
+        type: string
+        description: Human readable title of an option for singlevaluelist or multivaluelist (analogous to the innerhtml text node of an html option tag).
+        
+        
+    
+      
 
 
 paths:
 #todo jurisdiction_id as general concept?
 #todo response_format as general concept?
+#todo extract service_code?
 #todo extract an error model for responses?
 
   /services.{response_format}:
@@ -60,7 +117,7 @@ paths:
       description: List acceptable service request types and their associated service codes. These request types can be unique to the city/jurisdiction.
       parameters:
         - name: jurisdiction_id
-          in: query #fix it
+          in: query
           required: true
           type: string
         - name: response_format
@@ -74,6 +131,34 @@ paths:
               type: array
               items:
                 $ref: '#/definitions/Service'
+        400:
+          description: The URL request is invalid or service is not running or reachable. Client should notify us after checking URL
+        404:
+          description: jurisdiction_id provided was not found (specify in error response).
+          
+  /services/{service_code}.{response_format}:
+    get:
+      summary: (extended) definition of a service type
+      description: Define attributes associated with a service code. These attributes can be unique to the city/jurisdiction.
+      parameters:
+        - name: jurisdiction_id
+          in: query
+          required: true
+          type: string
+        - name: response_format
+          in: path
+          required: true
+          type: string
+        - name: service_code
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: returns ServiceDefinition for the Service
+          schema:
+            $ref: '#/definitions/ServiceDefinition'
+                
         400:
           description: The URL request is invalid or service is not running or reachable. Client should notify us after checking URL
         404:
