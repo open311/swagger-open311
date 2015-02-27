@@ -19,7 +19,6 @@ consumes:
 produces:
         - application/json
         - application/xml
-        
 #securityDefinitions: <?>
 #security:
 
@@ -39,7 +38,7 @@ definitions:
         type: string
       metadata:
         type: boolean
-        description: Are there additional form fields for this service type? If true use GET service definition for that one 
+        description: Are there additional form fields for this service type? If true use GET service definition for that one
       type:
         type: string
         description: Possible values realtime, batch, blackbox #todo as enum?
@@ -49,7 +48,6 @@ definitions:
       group:
         type: string
         description: Category or group to cluster different request types e.g. “sanitation”
-  
   ServiceDefinition:
     description: Attributes associated with a service code. These attributes can be unique to the city/jurisdiction.
     properties:
@@ -60,7 +58,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ServiceAttribute'
-          
   ServiceAttribute:
     description: A single attribute extension for a service
     properties:
@@ -75,7 +72,7 @@ definitions:
         description: Type of field used for user input. According widgets will be picked for user inputs
       required:
         type: boolean
-        description: If attributes value required to submit service request 
+        description: If attributes value required to submit service request
       datatype_description:
         type: string
         description: Description of the datatype which helps the user provide their input
@@ -89,7 +86,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/AttributeValue'
-          
   AttributeValue:
     description: Possible value for ServiceAttribute that defines lists
     properties:
@@ -99,17 +95,76 @@ definitions:
       name:
         type: string
         description: Human readable title of an option for singlevaluelist or multivaluelist (analogous to the innerhtml text node of an html option tag).
-        
-        
-    
-      
 
+  Request:
+   description: Issues that have been reported as service requests.
+   properties:
+    service_name:
+      type: string
+      description: The human readable name of the service request type.
+    service_code:
+      type: string
+      description: The unique identifier for the service request type
+    description:
+      type: string
+      description: A full description of the request or report submitted.
 
 paths:
 #todo jurisdiction_id as general concept?
 #todo response_format as general concept?
 #todo extract service_code?
 #todo extract an error model for responses?
+  /requests.{response_format}:
+    get:
+      summary: requests
+      description: Query the current status of multiple requests.
+      parameters:
+        - name: jurisdiction_id
+          in: query
+          description: <?>
+          required: true
+          type: string
+        - name: service_request_id
+          in: query
+          description: To call multiple Service Requests at once, multiple service_request_id can be declared; comma delimited.This overrides all other arguments.
+          required: false
+          type: string
+        - name: service_code
+          in: query
+          description: Specify the service type by calling the unique ID of the service_code.
+          required: false
+          type: string
+        - name: start_date
+          in: query
+          description: Earliest datetime to include in search. When provided with end_date, allows one to search for requests which have a requested_datetime that matches a given range, but may not span more than 90 days.
+          required: false
+          type: string
+        - name: end_date
+          in: query
+          description: Latest datetime to include in search. When provided with start_date, allows one to search for requests which have a requested_datetime that matches a given range, but may not span more than 90 days.
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: Allows one to search for requests which have a specific status. This defaults to all statuses; can be declared multiple times, comma delimited.
+          required: false
+          type: string
+        - name: response_format
+          in: path
+
+          required: true
+          type: string
+      responses:
+        200:
+          description: ok
+          schema:
+            type: array
+            items:
+             $ref: '#/definitions/Request'
+        400:
+          description: jurisdiction_id was not provided (specified in error response) or General Service error (Any failure during service query processing. Client will have to notify us)
+        401:
+          description:  jurisdiction_id not found (specified in error response)
 
   /services.{response_format}:
     get:
@@ -135,7 +190,6 @@ paths:
           description: The URL request is invalid or service is not running or reachable. Client should notify us after checking URL
         404:
           description: jurisdiction_id provided was not found (specify in error response).
-          
   /services/{service_code}.{response_format}:
     get:
       summary: (extended) definition of a service type
@@ -158,7 +212,6 @@ paths:
           description: returns ServiceDefinition for the Service
           schema:
             $ref: '#/definitions/ServiceDefinition'
-                
         400:
           description: service_code or jurisdiction_id provided were not found (specify in error response)
         404:
