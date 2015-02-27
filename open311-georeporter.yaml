@@ -14,11 +14,10 @@ info:
     url: http://
 
 consumes:
-        - application/json
-        - application/xml
+        - application/x-www-form-urlencoded
 produces:
         - application/json
-        - application/xml
+        - text/xml
         
 #securityDefinitions: <?>
 #security:
