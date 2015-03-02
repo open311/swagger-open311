@@ -111,6 +111,23 @@ definitions:
     description:
       type: string
       description: A full description of the request or report submitted.
+    
+  RequestResponse:
+    description: Details for tracking an created service request
+    properties: #todo service_requests array?
+      service_request_id:
+        type: string
+        description: Unique ID of the service request created.
+      token:
+        type: string
+        description: Use this to call GET service_request_id from a token.
+        #todo it's request_id | token
+      service_notice:
+        type: string
+        description: Information about the action expected to fulfill the request or otherwise address the information reported.
+      account_id:
+        type: string
+        description: Unique ID for the user account of the person submitting the request.
 
 paths:
 #todo jurisdiction_id as general concept?
@@ -168,7 +185,59 @@ paths:
           description: jurisdiction_id was not provided (specified in error response) or General Service error (Any failure during service query processing. Client will have to notify us)
         401:
           description:  jurisdiction_id not found (specified in error response)
-
+    post:
+      summary: Create service request
+      description: <?>
+      parameters:
+        - name: response_format
+          in: path
+          required: true
+          type: string
+        - name: jurisdiction_id
+          in: query
+          description: <?>
+          required: true
+          type: string
+        - name: service_code
+          in: query
+          description: <?>
+          required: true
+          type: string
+        #todo model better dependencies adress|latlon
+        - name: lat
+          in: query
+          description: WGS-84 latitude
+          required: false
+          type: number
+        - name: lon
+          in: query
+          description: WGS-84 longitude
+          required: false
+          type: number
+        - name: address_string #todo any formal definition?
+          in: query
+          required: false
+          type: string
+        - name: address_id #todo any formal definition?
+          in: query
+          required: false
+          type: string
+        - name: attribute
+          in: query
+          description: array of key/value responses based on Service Definitions.
+          required: false
+          type: array
+          items:
+            type: string #todo $ref: '#/definitions/ServiceAttribute'
+          collectionFormat: multi
+      responses:
+        200:
+          description: success returns an tracking-id
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/RequestResponse"
+          
   /services.{response_format}:
     get:
       summary: service types
