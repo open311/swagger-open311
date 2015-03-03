@@ -302,6 +302,35 @@ paths:
             type: array
             items:
               $ref: "#/definitions/RequestResponse"
+  
+  /request/{service_request_id}.{response_format}:
+    get:
+      summary: current status
+      description: Query the current status of an individual request
+      parameters:
+        - name: response_format
+          in: path
+          required: true
+          type: string
+        - name: jurisdiction_id
+          in: query
+          description: <?>
+          required: true
+          type: string
+        - name: service_request_id
+          in: path
+          description: Is specified in the main URL path rather than an added query string parameter.
+          required: true
+          type: string
+      responses:
+        200:
+          description: success returns request details
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Request" 
+          
+
           
   /services.{response_format}:
     get:
