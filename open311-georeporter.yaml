@@ -129,6 +129,16 @@ definitions:
         type: string
         description: Unique ID for the user account of the person submitting the request.
 
+  TokenResponse:
+    description: Resolves temporary token to ID of the request
+    properties: #todo service_requests array?
+      service_request_id: #todo general request ID concept
+        type: string
+        description: Unique ID of the service request created.
+      token:
+        type: string
+        description: Use this to call GET service_request_id
+
 paths:
 #todo jurisdiction_id as general concept?
 #todo response_format as general concept?
@@ -290,3 +300,26 @@ paths:
           description: service_code or jurisdiction_id provided were not found (specify in error response)
         404:
           description: service_code or jurisdiction_id provided were not found (specify in error response)
+
+  /tokens/{token_id}.{response_format}:
+    get:
+      summary: Id of service_request via token
+      description: Get the service_request_id from a temporary token. This is unnecessary if the response from creating a service request does not contain a token.
+      parameters:
+        - name: jurisdiction_id
+          in: query
+          required: true
+          type: string
+        - name: response_format
+          in: path
+          required: true
+          type: string
+        - name: token_id #todo link with POST Service req
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: returns tuple request ID, token
+          schema:
+            $ref: '#/definitions/TokenResponse'
