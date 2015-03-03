@@ -19,8 +19,10 @@ produces:
         - application/json
         - text/xml
         
-#securityDefinitions: <?>
-#security:
+#todo securityDefinitions: <?>
+#todo security:
+
+#todo general error codes 403, 400, ... (at end of specs)
 
 #todo add example values for mocking this API
 
