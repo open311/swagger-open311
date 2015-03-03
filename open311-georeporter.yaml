@@ -102,7 +102,17 @@ definitions:
   Request:
    description: Issues that have been reported as service requests.
    properties:
-    service_name:
+    service_request_id:
+      type: string
+      description: Unique ID of the service request created.
+    status:
+      type: string
+      description: Current status of the service request.
+    status_notes:
+      #todo optional
+      type: string
+      description: Explanation of why status was changed to current state or more details on current status than conveyed with status alone.
+    service_name: #todo Generalization and linking
       type: string
       description: The human readable name of the service request type.
     service_code:
@@ -111,6 +121,49 @@ definitions:
     description:
       type: string
       description: A full description of the request or report submitted.
+    agency_responsible:
+      #todo optional
+      type: string
+      description: Agency responsible for fulfilling or otherwise addressing the service request.
+    service_notice:
+      #todo optional
+      type: string
+      description: Information about the action expected to fulfill the request or otherwise address the information reported.
+    requested_datetime:
+      #todo date format
+      type: string
+      description: Date and time when the service request was made.
+    updated_datetime:
+      #todo date format
+      type: string
+      description: Date and time when the service request was last modified. For requests with status=closed, this will be the date the request was closed.
+    expected_datetime:
+      #todo date format and optional
+      type: string
+      description: The date and time when the service request can be expected to be fulfilled. This may be based on a service-specific service level agreement.
+    adress:
+      #todo date format and optional
+      type: string
+      description: Human readable address or description of location. This should be provided from most specific to most general geographic unit, eg address number or cross streets, street name, neighborhood/district, city/town/village, county, postal code.
+    adress_id:
+      #<?> optional or required?
+      type: string
+      description: Internal address ID used by a jurisdictions master address repository or other addressing system.
+    zipcode:
+      #<?> Already mentioned in adress descr?
+      type: string
+      description: postal code for the location of the service request.
+    lat: #Generalisation with
+      type: number
+      description: latitude using the (WGS84) projection.
+    lat:
+      type: number
+      description: longitude using the (WGS84) projection.
+    media_url:
+      type: string
+      #<?> so we write we don't know how to submit
+      description: URL to media associated with the request, eg an image. A convention for parsing media from this URL has yet to be established, so currently it will be done on a case by case basis much like Twitter.com does. For example, if a jurisdiction accepts photos submitted via Twitpic.com, then clients can parse the page at the Twitpic URL for the image given the conventions of Twitpic.com. This could also be a URL to a media RSS feed where the clients can parse for media in a more structured way.
+    
     
   RequestResponse:
     description: Details for tracking an created service request
@@ -164,7 +217,7 @@ paths:
           description: Specify the service type by calling the unique ID of the service_code.
           required: false
           type: string
-        - name: start_date
+        - name: start_date #todo specify date (w3 format, eg 2010-01-01T00:00:00Z)
           in: query
           description: Earliest datetime to include in search. When provided with end_date, allows one to search for requests which have a requested_datetime that matches a given range, but may not span more than 90 days.
           required: false
@@ -174,7 +227,7 @@ paths:
           description: Latest datetime to include in search. When provided with start_date, allows one to search for requests which have a requested_datetime that matches a given range, but may not span more than 90 days.
           required: false
           type: string
-        - name: status
+        - name: status #todo specify status (open, closed)
           in: query
           description: Allows one to search for requests which have a specific status. This defaults to all statuses; can be declared multiple times, comma delimited.
           required: false
@@ -186,7 +239,7 @@ paths:
           type: string
       responses:
         200:
-          description: ok
+          description: List of matching requests (Default query limit is a span of 90 days or first 1000 requests returned, whichever is smallest).
           schema:
             type: array
             items:
@@ -219,7 +272,7 @@ paths:
           description: WGS-84 latitude
           required: false
           type: number
-        - name: lon
+        - name: long
           in: query
           description: WGS-84 longitude
           required: false
