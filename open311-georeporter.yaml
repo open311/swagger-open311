@@ -326,8 +326,6 @@ paths:
         200:
           description: success returns request details
           schema:
-            type: array
-            items:
               $ref: "#/definitions/Request" 
           
 
