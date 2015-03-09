@@ -172,7 +172,7 @@ definitions:
     zipcode:
       #<?> Already mentioned in address descr?
       type: string
-      description: postal code for the location of the service request.
+      description: postal code for the location of the service request. (Redundant and field might be removed as it should be part of adress string)
     lat: #Generalisation with
       type: number
       format: double
