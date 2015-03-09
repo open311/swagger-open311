@@ -43,7 +43,11 @@ definitions:
         description: Are there additional form fields for this service type? If true use GET service definition for that one
       type:
         type: string
-        description: Possible values realtime, batch, blackbox #todo as enum?
+        description: Possible values realtime, batch, blackbox
+        enum: 
+          - realtime
+          - batch
+          - blackbox        
       keywords:
         type: string
         description: list of keywords or tags seperated by comma
@@ -72,7 +76,14 @@ definitions:
         type: string
         description: Unique identifier for the attribute #<?>why and limitations
       datatype:
-        type: string #todo string, number, datetime, text, singlevaluelist, multivaluelist.
+        type: string
+        enum:
+          - string
+          - number
+          - datetime
+          - text
+          - singlevaluelist
+          - multivaluelist
         description: Type of field used for user input. According widgets will be picked for user inputs
       required:
         type: boolean
@@ -103,12 +114,20 @@ definitions:
 
   Request:
    description: Issues that have been reported as service requests.
+   required:
+    - service_request_id
+    - status
+    - service_code
+    - requested_datetime
    properties:
     service_request_id:
       type: string
       description: Unique ID of the service request created.
     status:
       type: string
+      enum:
+        - open
+        - closed
       description: Current status of the service request.
     status_notes:
       #todo optional
@@ -132,37 +151,39 @@ definitions:
       type: string
       description: Information about the action expected to fulfill the request or otherwise address the information reported.
     requested_datetime:
-      #todo date format
       type: string
+      format: date-time
       description: Date and time when the service request was made.
     updated_datetime:
-      #todo date format
       type: string
+      format: date-time
       description: Date and time when the service request was last modified. For requests with status=closed, this will be the date the request was closed.
     expected_datetime:
-      #todo date format and optional
       type: string
+      format: date-time
       description: The date and time when the service request can be expected to be fulfilled. This may be based on a service-specific service level agreement.
-    adress:
-      #todo date format and optional
+    address:
       type: string
       description: Human readable address or description of location. This should be provided from most specific to most general geographic unit, eg address number or cross streets, street name, neighborhood/district, city/town/village, county, postal code.
-    adress_id:
+    address_id:
       #<?> optional or required?
       type: string
       description: Internal address ID used by a jurisdictions master address repository or other addressing system.
     zipcode:
-      #<?> Already mentioned in adress descr?
+      #<?> Already mentioned in address descr?
       type: string
       description: postal code for the location of the service request.
     lat: #Generalisation with
       type: number
+      format: double
       description: latitude using the (WGS84) projection.
-    lat:
+    long:
       type: number
+      format: double
       description: longitude using the (WGS84) projection.
     media_url:
       type: string
+      format: uri
       #<?> so we write we don't know how to submit
       description: URL to media associated with the request, eg an image. A convention for parsing media from this URL has yet to be established, so currently it will be done on a case by case basis much like Twitter.com does. For example, if a jurisdiction accepts photos submitted via Twitpic.com, then clients can parse the page at the Twitpic URL for the image given the conventions of Twitpic.com. This could also be a URL to a media RSS feed where the clients can parse for media in a more structured way.
     
@@ -219,21 +240,26 @@ paths:
           description: Specify the service type by calling the unique ID of the service_code.
           required: false
           type: string
-        - name: start_date #todo specify date (w3 format, eg 2010-01-01T00:00:00Z)
+        - name: start_date
           in: query
           description: Earliest datetime to include in search. When provided with end_date, allows one to search for requests which have a requested_datetime that matches a given range, but may not span more than 90 days.
           required: false
           type: string
+          format: date-time
         - name: end_date
           in: query
           description: Latest datetime to include in search. When provided with start_date, allows one to search for requests which have a requested_datetime that matches a given range, but may not span more than 90 days.
           required: false
           type: string
-        - name: status #todo specify status (open, closed)
+          format: date-time
+        - name: status
           in: query
           description: Allows one to search for requests which have a specific status. This defaults to all statuses; can be declared multiple times, comma delimited.
           required: false
           type: string
+          enum:
+            - open
+            - closed
         - name: response_format
           in: path
 
@@ -274,11 +300,13 @@ paths:
           description: WGS-84 latitude
           required: false
           type: number
+          format: double
         - name: long
           in: query
           description: WGS-84 longitude
           required: false
           type: number
+          format: double
         - name: address_string #todo any formal definition?
           in: query
           required: false
