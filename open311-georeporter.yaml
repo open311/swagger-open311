@@ -29,6 +29,10 @@ produces:
 definitions:
   Service:
     description: A single service (type) offered via Open311
+    required:
+      - service_code
+      - service_name
+      - type
     properties:
       service_code:
         type: string
@@ -57,6 +61,9 @@ definitions:
   
   ServiceDefinition:
     description: Attributes associated with a service code. These attributes can be unique to the city/jurisdiction.
+    required:
+      - service_code
+      - attributes #todo How to make sure it's not empty?
     properties:
       service_code:
         type: string
@@ -68,6 +75,11 @@ definitions:
           
   ServiceAttribute:
     description: A single attribute extension for a service
+    required:
+      - variable
+      - code
+      - datatype
+      - required
     properties:
       variable:
         type: boolean
@@ -104,6 +116,9 @@ definitions:
           
   AttributeValue:
     description: Possible value for ServiceAttribute that defines lists
+    required:
+      - key
+      - name
     properties:
       key:
         type: string
