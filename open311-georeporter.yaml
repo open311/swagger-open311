@@ -25,7 +25,12 @@ produces:
 #todo general error codes 403, 400, ... (at end of specs)
 
 #todo add example values for mocking this API
-
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: query
+	
 definitions:
   Service:
     description: A single service (type) offered via Open311
@@ -294,6 +299,8 @@ paths:
     post:
       summary: Create service request
       description: <?>
+      security:
+        - api_key: []
       parameters:
         - name: response_format
           in: path
