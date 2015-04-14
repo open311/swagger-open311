@@ -292,6 +292,45 @@ paths:
             type: array
             items:
              $ref: '#/definitions/Request'
+          examples:
+            application/xml:
+              request:
+                service_request_id: 638344
+                status: closed
+                status_notes: Duplicate request.
+                service_name: Sidewalk and Curb Issues
+                service_code: 006
+                description: 
+                agency_responsible:
+                service_notice:
+                requested_datetime: 2010-04-14T06:37:38-08:00
+                updated_datetime: 2010-04-14T06:37:38-08:00
+                expected_datetime: 2010-04-15T06:37:38-08:00
+                address: 8TH AVE and JUDAH ST
+                address_id: 545483
+                zipcode: 94122
+                lat: 37.762221815
+                long: -122.4651145
+                media_url: http://city.gov.s3.amazonaws.com/requests/media/638344.jpg
+              request:
+                service_request_id: 638349
+                status: open
+                status_notes:
+                service_name: Sidewalk and Curb Issues
+                service_code: 006
+                description: 
+                agency_responsible:
+                service_notice:
+                requested_datetime: 2010-04-19T06:37:38-08:00
+                updated_datetime: 2010-04-19T06:37:38-08:00
+                expected_datetime: 2010-04-19T06:37:38-08:00
+                address: 8TH AVE and JUDAH ST
+                address_id: 545483
+                zipcode: 94122
+                lat: 37.762221815
+                long: -122.4651145
+                media_url: http://city.gov.s3.amazonaws.com/requests/media/638344.jpg
+              
         400:
           description: jurisdiction_id was not provided (specified in error response) or General Service error (Any failure during service query processing. Client will have to notify us)
         401:
@@ -352,6 +391,13 @@ paths:
             type: array
             items:
               $ref: "#/definitions/RequestResponse"
+          examples:
+            application/xml:
+              service_requests:
+                service_request_id: 293944
+                service_notice: The City will inspect and require the responsible party to correct within 24 hours and/or issue a Correction Notice or Notice of Violation of the Public Works Code
+                account_id:
+                
   
   /request/{service_request_id}.{response_format}:
     get:
@@ -376,7 +422,27 @@ paths:
         200:
           description: success returns request details
           schema:
-              $ref: "#/definitions/Request" 
+              $ref: "#/definitions/Request"
+          examples:
+            application/xml:
+              request:
+                service_request_id: 638344
+                status: closed
+                status_notes: Duplicate request.
+                service_name: Sidewalk and Curb Issues
+                service_code: 006
+                description: 
+                agency_responsible:
+                service_notice:
+                requested_datetime: 2010-04-14T06:37:38-08:00
+                updated_datetime: 2010-04-14T06:37:38-08:00
+                expected_datetime: 2010-04-15T06:37:38-08:00
+                address: 8TH AVE and JUDAH ST
+                address_id: 545483
+                zipcode: 94122
+                lat: 37.762221815
+                long: -122.4651145
+                media_url: http://city.gov.s3.amazonaws.com/requests/media/638344.jpg
           
 
           
@@ -400,6 +466,34 @@ paths:
               type: array
               items:
                 $ref: '#/definitions/Service'
+          examples:
+            application/xml:
+              services:
+                service:
+                  service_code: 001
+                  service_name: Cans left out 24x7
+                  description: Garbage or recycling cans that have been left out for more than 24 hours after collection. Violators will be cited.
+                  metadata: true
+                  type: realtime
+                  keywords: lorem, ipsum, dolor
+                  group: sanitation
+                service:
+                  service_code: 002
+                  service_name: Construction plate shifted
+                  description: Metal construction plate covering the street or sidewalk has been moved.
+                  metadata: true
+                  type: realtime
+                  keywords: lorem, ipsum, dolor
+                  group: street
+                service:
+                  service_code: 003
+                  service_name: Curb or curb ramp defect
+                  description: Sidewalk curb or ramp has problems such as cracking, missing pieces, holes, and/or chipped curb.
+                  metadata: true
+                  type: realtime
+                  keywords: lorem, ipsum, dolor
+                  group: street
+                  
         400:
           description: The URL request is invalid or service is not running or reachable. Client should notify us after checking URL
         404:
@@ -427,6 +521,26 @@ paths:
           description: returns ServiceDefinition for the Service
           schema:
             $ref: '#/definitions/ServiceDefinition'
+          examples:
+            application/xml:
+              service_definition:
+                service_code: DMV66
+                attributes:
+                  attribute:
+                    variable: true
+                    code: WHISHETN
+                    datatype: singlevaluelist
+                    required: true
+                    datatype_description:
+                    order: 1
+                    description: What is the ticket/tag/DL number?
+                    values:
+                      value:
+                        key: 123
+                        name: Ford
+                      value:
+                        key: 124
+                        name: Chrysler
                 
         400:
           description: service_code or jurisdiction_id provided were not found (specify in error response)
@@ -455,3 +569,9 @@ paths:
           description: returns tuple request ID, token
           schema:
             $ref: '#/definitions/TokenResponse'
+          examples:
+            application/xml:
+              service_requests:
+                request:
+                  service_request_id: 638344
+                  token: 12345
