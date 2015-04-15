@@ -41,6 +41,7 @@ definitions:
     properties:
       service_code:
         type: string
+        format: uid
         description: unique identifier for the service request type
       service_name:
         type: string
@@ -58,7 +59,10 @@ definitions:
           - batch
           - blackbox        
       keywords:
-        type: string
+        type: array
+        items:
+          type: string
+        collectionFormat: csv
         description: list of keywords or tags seperated by comma
       group:
         type: string
@@ -72,6 +76,7 @@ definitions:
     properties:
       service_code:
         type: string
+        format: uid
         description: unique identifier for the service request type
       attributes:
         type: array
@@ -91,6 +96,7 @@ definitions:
         description: If only used to present information to the user within the description field or if that user input is needed
       code:
         type: string
+        format: uid
         description: Unique identifier for the attribute #<?>why and limitations
       datatype:
         type: string
@@ -109,7 +115,8 @@ definitions:
         type: string
         description: Description of the datatype which helps the user provide their input
       order:
-        type: integer #todo Limit numbers?
+        type: integer
+        format: uint
         description: Sort order that the attributes will be presented to the user. 1 is shown first in the list.
       description:
         type: string
@@ -127,6 +134,7 @@ definitions:
     properties:
       key:
         type: string
+        format: uid
         description: Unique identifier associated with an option for singlevaluelist or multivaluelist (analogous to the value attribute in an html option tag).
       name:
         type: string
@@ -142,6 +150,7 @@ definitions:
    properties:
     service_request_id:
       type: string
+      format: uid
       description: Unique ID of the service request created.
     status:
       type: string
@@ -150,7 +159,6 @@ definitions:
         - closed
       description: Current status of the service request.
     status_notes:
-      #todo optional
       type: string
       description: Explanation of why status was changed to current state or more details on current status than conveyed with status alone.
     service_name: #todo Generalization and linking
@@ -158,16 +166,15 @@ definitions:
       description: The human readable name of the service request type.
     service_code:
       type: string
+      format: uid
       description: The unique identifier for the service request type
     description:
       type: string
       description: A full description of the request or report submitted.
     agency_responsible:
-      #todo optional
       type: string
       description: Agency responsible for fulfilling or otherwise addressing the service request.
     service_notice:
-      #todo optional
       type: string
       description: Information about the action expected to fulfill the request or otherwise address the information reported.
     requested_datetime:
@@ -213,9 +220,11 @@ definitions:
     properties: #todo service_requests array?
       service_request_id:
         type: string
+        format: uid
         description: Unique ID of the service request created.
       token:
         type: string
+        format: uid
         description: Use this to call GET service_request_id from a token.
         #todo it's request_id | token
       service_notice:
@@ -223,6 +232,7 @@ definitions:
         description: Information about the action expected to fulfill the request or otherwise address the information reported.
       account_id:
         type: string
+        format: uid
         description: Unique ID for the user account of the person submitting the request.
 
   TokenResponse:
@@ -230,9 +240,11 @@ definitions:
     properties: #todo service_requests array?
       service_request_id: #todo general request ID concept
         type: string
+        format: uid
         description: Unique ID of the service request created.
       token:
         type: string
+        format: uid
         description: Use this to call GET service_request_id
 
 paths:
@@ -250,11 +262,13 @@ paths:
           description: <?>
           required: true
           type: string
+          format: uid
         - name: service_request_id
           in: query
           description: To call multiple Service Requests at once, multiple service_request_id can be declared; comma delimited.This overrides all other arguments.
           required: false
           type: string
+          format: uid
         - name: service_code
           in: query
           description: Specify the service type by calling the unique ID of the service_code.
@@ -282,7 +296,6 @@ paths:
             - closed
         - name: response_format
           in: path
-
           required: true
           type: string
       responses:
@@ -337,7 +350,7 @@ paths:
           description:  jurisdiction_id not found (specified in error response)
     post:
       summary: Create service request
-      description: <?>
+      description: Submit a new request for with specific details of a single service
       security:
         - api_key: []
       parameters:
@@ -350,11 +363,13 @@ paths:
           description: <?>
           required: true
           type: string
+          format: uid
         - name: service_code
           in: query
           description: <?>
           required: true
           type: string
+          format: uid
         #todo model better dependencies adress|latlon
         - name: lat
           in: query
@@ -376,6 +391,7 @@ paths:
           in: query
           required: false
           type: string
+          format: uid
         - name: attribute
           in: query
           description: array of key/value responses based on Service Definitions.
@@ -408,16 +424,19 @@ paths:
           in: path
           required: true
           type: string
+          format: uid
         - name: jurisdiction_id
           in: query
           description: <?>
           required: true
           type: string
+          format: uid
         - name: service_request_id
           in: path
           description: Is specified in the main URL path rather than an added query string parameter.
           required: true
           type: string
+          format: uid
       responses:
         200:
           description: success returns request details
@@ -455,10 +474,12 @@ paths:
           in: query
           required: true
           type: string
+          format: uid
         - name: response_format
           in: path
           required: true
           type: string
+          format: uid
       responses:
         200:
           description: ok
@@ -508,6 +529,7 @@ paths:
           in: query
           required: true
           type: string
+          format: uid
         - name: response_format
           in: path
           required: true
@@ -516,6 +538,7 @@ paths:
           in: path
           required: true
           type: string
+          format: uid
       responses:
         200:
           description: returns ServiceDefinition for the Service
@@ -556,14 +579,17 @@ paths:
           in: query
           required: true
           type: string
+          format: uid
         - name: response_format
           in: path
           required: true
           type: string
+          format: uid
         - name: token_id #todo link with POST Service req
           in: path
           required: true
           type: string
+          format: uid
       responses:
         200:
           description: returns tuple request ID, token
