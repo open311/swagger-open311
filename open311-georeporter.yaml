@@ -350,7 +350,7 @@ paths:
           description:  jurisdiction_id not found (specified in error response)
     post:
       summary: Create service request
-      description: Submit a new request for with specific details of a single service
+      description: Submit a new request for with specific details of a single service. Must provide a location via lat/long or address_string or address_id
       security:
         - api_key: []
       parameters:
