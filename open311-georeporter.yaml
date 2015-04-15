@@ -141,7 +141,7 @@ definitions:
         description: Human readable title of an option for singlevaluelist or multivaluelist (analogous to the innerhtml text node of an html option tag).
 
   Request:
-   description: Issues that have been reported as service requests.
+   description: Issues that have been reported as service requests. Location is submitted via lat/long or address or address_id
    required:
     - service_request_id
     - status
@@ -566,7 +566,7 @@ paths:
                         name: Chrysler
                 
         400:
-          description: service_code or jurisdiction_id provided were not found (specify in error response)
+          description: service_code or jurisdiction_id provided were not found (specify in erraddor response)
         404:
           description: service_code or jurisdiction_id provided were not found (specify in error response)
 
