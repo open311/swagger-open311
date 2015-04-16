@@ -10,8 +10,8 @@ info:
     url: http://wiki.open311.org/GeoReport_v2/
     email:  discuss@lists.open311.org
   license:
-    name: public domain
-    url: https://en.wikipedia.org/wiki/Public_domain
+    name: CC BY 3.0
+    url: http://creativecommons.org/licenses/by/3.0/
 
 consumes:
         - application/x-www-form-urlencoded
