@@ -19,12 +19,6 @@ produces:
         - application/json
         - text/xml
         
-#todo securityDefinitions: <?>
-#todo security:
-
-#todo general error codes 403, 400, ... (at end of specs)
-
-#todo add example values for mocking this API
 securityDefinitions:
   api_key:
     type: apiKey
@@ -226,7 +220,6 @@ definitions:
         type: string
         format: uid
         description: Use this to call GET service_request_id from a token.
-        #todo it's request_id | token
       service_notice:
         type: string
         description: Information about the action expected to fulfill the request or otherwise address the information reported.
@@ -264,8 +257,6 @@ parameters:
         
 
 paths:
-#todo jurisdiction_id as general concept?
-#todo response_format as general concept?
 #todo extract service_code?
 #todo extract an error model for responses?
   /requests.{response_format}:
@@ -370,7 +361,6 @@ paths:
           required: true
           type: string
           format: uid
-        #todo model better dependencies adress|latlon
         - name: lat
           in: query
           description: WGS-84 latitude
