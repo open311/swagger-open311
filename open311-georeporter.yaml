@@ -4,14 +4,14 @@ info:
   version: "2.0"
   title: Open311 GeoReport API
   description: Open311 allows you to get/post civic information of cities via a unified interface. The GeoReport part allows you to submit and view issues at the public local space
-  termsOfService: <?>
+  termsOfService: (depends on server instance for example NYC http://dev.cityofchicago.org/docs/api/tos)
   contact:
     name: Open311 community
     url: http://wiki.open311.org/GeoReport_v2/
     email:  discuss@lists.open311.org
   license:
-    name: <?>
-    url: http://
+    name: public domain
+    url: https://en.wikipedia.org/wiki/Public_domain
 
 consumes:
         - application/x-www-form-urlencoded
