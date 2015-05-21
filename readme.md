@@ -2,6 +2,8 @@ This is an reimplementation of the Open311 Georeport API (starting with v2) in [
 
 The definition is **work in progress** !
 
+Currently: ![syntax check](http://online.swagger.io/validator?url=https://raw.githubusercontent.com/open311/swagger-open311/master/open311-georeporter.yaml)
+
 # contributing:
 
 If you like to contribute, please open this .yaml file e.g. with [Swagger Editor](http://editor.swagger.io) and discuss problems or contribute patches via pull requests.
