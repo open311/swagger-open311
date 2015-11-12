@@ -6,7 +6,7 @@ Currently: ![syntax check](http://online.swagger.io/validator?url=https://raw.gi
 
 # contributing:
 
-If you like to contribute, please open this .yaml file e.g. with [Swagger Editor](http://editor.swagger.io) and discuss problems or contribute patches via pull requests.
+If you like to contribute, please open this .yaml file e.g. with [Swagger Editor](http://editor.swagger.io/#/?import=https://raw.githubusercontent.com/open311/swagger-open311/master/open311-georeporter.yaml) and discuss problems or contribute patches via pull requests.
 
 I also addedd markups to indicate possible malformed/undefined/... areas
 * `<?>` indicates aspects to be discussed
