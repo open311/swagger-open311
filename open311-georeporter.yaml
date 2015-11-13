@@ -255,7 +255,6 @@ parameters:
     type: string
     format: uid
         
-
 paths:
 #todo extract service_code?
 #todo extract an error model for responses?
