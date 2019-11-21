@@ -56,7 +56,6 @@ definitions:
         type: array
         items:
           type: string
-        collectionFormat: csv
         description: list of keywords or tags seperated by comma
       group:
         type: string
@@ -323,6 +322,7 @@ paths:
                 lat: 37.762221815
                 long: -122.4651145
                 media_url: http://city.gov.s3.amazonaws.com/requests/media/638344.jpg
+            application/json:
               request:
                 service_request_id: 638349
                 status: open
@@ -462,30 +462,30 @@ paths:
           examples:
             application/xml:
               services:
-                service:
-                  service_code: 001
-                  service_name: Cans left out 24x7
-                  description: Garbage or recycling cans that have been left out for more than 24 hours after collection. Violators will be cited.
-                  metadata: true
-                  type: realtime
-                  keywords: lorem, ipsum, dolor
-                  group: sanitation
-                service:
-                  service_code: 002
-                  service_name: Construction plate shifted
-                  description: Metal construction plate covering the street or sidewalk has been moved.
-                  metadata: true
-                  type: realtime
-                  keywords: lorem, ipsum, dolor
-                  group: street
-                service:
-                  service_code: 003
-                  service_name: Curb or curb ramp defect
-                  description: Sidewalk curb or ramp has problems such as cracking, missing pieces, holes, and/or chipped curb.
-                  metadata: true
-                  type: realtime
-                  keywords: lorem, ipsum, dolor
-                  group: street
+                - service:
+                    service_code: 001
+                    service_name: Cans left out 24x7
+                    description: Garbage or recycling cans that have been left out for more than 24 hours after collection. Violators will be cited.
+                    metadata: true
+                    type: realtime
+                    keywords: lorem, ipsum, dolor
+                    group: sanitation
+                - service:
+                    service_code: 002
+                    service_name: Construction plate shifted
+                    description: Metal construction plate covering the street or sidewalk has been moved.
+                    metadata: true
+                    type: realtime
+                    keywords: lorem, ipsum, dolor
+                    group: street
+                - service:
+                    service_code: 003
+                    service_name: Curb or curb ramp defect
+                    description: Sidewalk curb or ramp has problems such as cracking, missing pieces, holes, and/or chipped curb.
+                    metadata: true
+                    type: realtime
+                    keywords: lorem, ipsum, dolor
+                    group: street
                   
         400:
           description: The URL request is invalid or service is not running or reachable. Client should notify us after checking URL
@@ -523,12 +523,12 @@ paths:
                     order: 1
                     description: What is the ticket/tag/DL number?
                     values:
-                      value:
-                        key: 123
-                        name: Ford
-                      value:
-                        key: 124
-                        name: Chrysler
+                      - value:
+                          key: 123
+                          name: Ford
+                      - value:
+                          key: 124
+                          name: Chrysler
                 
         400:
           description: service_code or jurisdiction_id provided were not found (specify in erraddor response)
